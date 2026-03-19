@@ -6,7 +6,7 @@ import {
   clearGallery,
   showLoader,
   hideLoader,
-} from './js/render-function';
+} from './js/render-functions';
 
 const form = document.querySelector('.form');
 form.addEventListener('submit', event => {
