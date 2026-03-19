@@ -9,7 +9,7 @@ import {
 } from './js/render-function';
 
 const form = document.querySelector('.form');
-form.addEventListener('submit', async event => {
+form.addEventListener('submit', event => {
   event.preventDefault();
   const query = event.target.elements['search-text'].value.trim();
   if (!query) {
@@ -19,23 +19,33 @@ form.addEventListener('submit', async event => {
     });
     return;
   }
-  clearGallery;
-  showLoader;
-  try {
-    const data = await getImagesByQuery(query);
-    console.log(data);
+  clearGallery();
+  showLoader();
+ getImagesByQuery(query)
+    .then(data => {
+      if (data.hits.length === 0) {
+        iziToast.error({
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+        });
+        return;
+      }
 
-    if (data.hits.length === 0) {
+      createGallery(data.hits);
+    })
+    .catch(error => {
+      console.log(error);
       iziToast.error({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+        message: 'Something went wrong',
       });
-      return;
-    }
-    createGallery(data.hits);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    hideLoader();
-  }
+    })
+    .finally(() => {
+      hideLoader();
+    });
 });
+  
+
+    
+    
+ 

@@ -3,9 +3,12 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const input = document.querySelector('input[name="search-text"]');
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
+  nav: true,
+  keyboard: true,
 });
 
 export function createGallery(images) {
@@ -25,7 +28,7 @@ export function createGallery(images) {
                     src="${webformatURL}"
                     alt="${tags}">
             </a>
-            <div class="info-item">
+            <div class="info">
                 <p class="info-item">
                     <b>Likes</b>
                     <span>${likes}</span>
@@ -47,11 +50,12 @@ export function createGallery(images) {
     )
     .join('');
   gallery.insertAdjacentHTML('beforeend', markup);
-  lightbox.innerHTML = '';
+  lightbox.refresh();
 }
 
 export function clearGallery() {
   gallery.innerHTML = '';
+  if (input) input.value = '';
 }
 
 export function showLoader() {
